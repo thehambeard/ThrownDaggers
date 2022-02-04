@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThrownDaggers", "ThrownDaggers\ThrownDaggers.csproj", "{0F8C47EB-371A-4282-8194-34AAE50FDDA8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModMaker", "..\WrathModMaker\ModMaker\ModMaker.shproj", "{7D3F9428-C134-47FE-9D04-305B4D330401}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\WrathModMaker\ModMaker\ModMaker.projitems*{0f8c47eb-371a-4282-8194-34aae50fdda8}*SharedItemsImports = 4
+		..\WrathModMaker\ModMaker\ModMaker.projitems*{7d3f9428-c134-47fe-9d04-305b4d330401}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F8C47EB-371A-4282-8194-34AAE50FDDA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8C47EB-371A-4282-8194-34AAE50FDDA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F8C47EB-371A-4282-8194-34AAE50FDDA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8C47EB-371A-4282-8194-34AAE50FDDA8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75173418-6ECA-4D40-9F75-0DCDE6D9E760}
+	EndGlobalSection
+EndGlobal
