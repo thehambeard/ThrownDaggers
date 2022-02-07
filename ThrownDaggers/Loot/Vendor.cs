@@ -19,7 +19,13 @@ namespace ThrownDaggers.Loot
             var joranVayne_DH = Resources.GetBlueprint<BlueprintSharedVendorTable>("a7948df9d37efc34e841284cf883370e");
             joranVayne_DH.AddVendorItem("A34554AD-C350-409F-AFE8-AFF88C79CFEE", 1); //Stirge
             joranVayne_DH.AddVendorItem("94D00BA9-4991-4218-8AC0-24C90E3941D0", 1); //Keen
-            joranVayne_DH.AddVendorItem("6A28AD07-5656-4203-B680-311CAB3FBCE9", 1); //Frost
+            joranVayne_DH.AddVendorItem("6A28AD07-5656-4203-B680-311CAB3FBCE9", 1); //Frost +1
+
+            //Wilcer Garms
+            //Crusader Camp
+            //Max price: 75000 CR:15
+            var wilcerGarms = Resources.GetBlueprint<BlueprintSharedVendorTable>("5753b6f35e7db234aa44085a358c27af");
+            wilcerGarms.AddVendorItem("D6AE4583-6F2E-4ECB-8577-36C6513ACD28", 1); //contrary
         }
     }
 }

@@ -2,11 +2,18 @@
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Items.Ecnchantments;
 using Kingmaker.Blueprints.Items.Weapons;
+using Kingmaker.Designers.EventConditionActionSystem.Actions;
+using Kingmaker.Designers.Mechanics.Buffs;
 using Kingmaker.Designers.Mechanics.EquipmentEnchants;
 using Kingmaker.Designers.Mechanics.Facts;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Abilities.Components;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
+using Kingmaker.UnitLogic.Mechanics.Conditions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ThrownDaggers.Extensions;
 using ThrownDaggers.Utilities;
@@ -17,6 +24,7 @@ namespace ThrownDaggers.Blueprints
     {
         public static void Configure()
         {
+            #region ENCHANTMENTS
             //Enchantments
             var corrosive = Resources.GetBlueprint<BlueprintWeaponEnchantment>("633b38ff1d11de64a91d490c683ab1c8");
             var flaming = Resources.GetBlueprint<BlueprintWeaponEnchantment>("30f90becaaac51f41bf56641966c4121");
@@ -64,6 +72,17 @@ namespace ThrownDaggers.Blueprints
             });
             Resources.AddBlueprint(shadowFangEnch);
 
+            var assFriendEnch = Helpers.CreateBlueprint<BlueprintWeaponEnchantment>("AssFriendItemEnchantment", "33A05DD8-4637-47E6-988F-9EFC232868EE", bp =>
+            {
+                bp.AddComponent<AddUnitFeatureEquipment>(f => 
+                {
+                    f.name = "$AddUnitFeatureEquipment$C06B4469-BACD-4B76-A0C9-8C07F0390094";
+                    f.m_Feature = Resources.GetBlueprint<BlueprintFeature>("09bdd9445ac38044389476689ae8d5a1").ToReference<BlueprintFeatureReference>();
+                });
+                bp.m_Overrides = new List<string>() { "$AddUnitFeatureEquipment$C06B4469-BACD-4B76-A0C9-8C07F0390094" };
+            });
+            #endregion
+            #region WEAPON_TYPES
             //Weapon Type
             var dartType = Resources.GetBlueprint<BlueprintWeaponType>("f415ae950523a7843a74d7780dd551af");
             var throwingDaggerType = Helpers.CreateCopy<BlueprintWeaponType>(Resources.GetBlueprint<BlueprintWeaponType>("07cc1a7fceaee5b42b3e43da960fe76d"), bp =>
@@ -78,7 +97,8 @@ namespace ThrownDaggers.Blueprints
 
             });
             Resources.AddBlueprint(throwingDaggerType);
-
+            #endregion
+            #region FEATS
             //FEATS
             var weaponfocusdagger = Resources.GetBlueprint<BlueprintFeature>("316f75ce57559fe45a723d14399236dd");
             weaponfocusdagger.AddComponent<WeaponFocus>(bp =>
@@ -115,7 +135,29 @@ namespace ThrownDaggers.Blueprints
            {
                bp.m_WeaponType = throwingDaggerType.ToReference<BlueprintWeaponTypeReference>();
            });
+            #endregion
+            #region BLUEPRINTBUFF
 
+            var fakeSlayerStudyTargetBuff = Helpers.CreateCopy(Resources.GetBlueprint<BlueprintBuff>("45548967b714e254aa83f23354f174b0"), bp =>
+            {
+                bp.AssetGuid = new BlueprintGuid(new Guid("8E086C08-1B5C-4157-9995-662C924B8854"));
+            });
+            var fakeSlayerComp = fakeSlayerStudyTargetBuff.GetComponent<ContextRankConfig>();
+            fakeSlayerComp.m_Class = new BlueprintCharacterClassReference[] { Resources.GetBlueprint<BlueprintCharacterClass>("299aa766dee3cbf4790da4efb8c72484").ToReference<BlueprintCharacterClassReference>() };
+            Resources.AddBlueprint(fakeSlayerStudyTargetBuff);
+
+            #endregion
+            #region BLUEPRINTABILITY
+            var fakeSlayerStudyTargetAbility = Helpers.CreateCopy(Resources.GetBlueprint<BlueprintAbility>("b96d810ceb1708b4e895b695ddbb1813"),  bp =>
+            {
+                bp.AssetGuid = new BlueprintGuid(new Guid("AA9F0CA8-5411-4167-812D-9DB263A4294C"));
+            });
+            var fakeSlayerStudyTargetAbilityComp = fakeSlayerStudyTargetAbility.GetComponent<AbilityEffectRunAction>();
+            ((ContextConditionHasBuffFromCaster)fakeSlayerStudyTargetAbilityComp.Actions.GetAction<Conditional>().ConditionsChecker.Conditions[0]).m_Buff = fakeSlayerStudyTargetBuff.ToReference<BlueprintBuffReference>();
+            ((ContextActionApplyBuff)fakeSlayerStudyTargetAbilityComp.Actions.GetAction<Conditional>().IfTrue.Actions[0]).m_Buff = fakeSlayerStudyTargetBuff.ToReference<BlueprintBuffReference>();
+            Resources.AddBlueprint(fakeSlayerStudyTargetAbility);
+            #endregion
+            #region BLUPRINTITEMWEAPON
             //Item Blueprints
             var standardThrowingDagger = Helpers.CreateCopy<BlueprintItemWeapon>(Resources.GetBlueprint<BlueprintItemWeapon>("aa514dbf4c3d61f4e9c0738bd4d373cb"), bp =>
             {
@@ -298,6 +340,36 @@ namespace ThrownDaggers.Blueprints
                 bp.CR = 7;
             });
             Resources.AddBlueprint(shadowFang);
+
+            var contrary = Helpers.CreateCopy<BlueprintItemWeapon>(plus2, bp =>
+            {
+                bp.name = "contraryItemThrowingDagger";
+                bp.AssetGuid = new BlueprintGuid(new Guid("D6AE4583-6F2E-4ECB-8577-36C6513ACD28"));
+                bp.m_Enchantments = bp.m_Enchantments.Append(flaming.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_Enchantments = bp.m_Enchantments.Append(frost.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_DisplayNameText = Helpers.CreateString("CONTRARY_TD", "Contrary");
+                bp.m_DescriptionText = Helpers.CreateString("CONTRARY_TD_DESC", "An odd blade that is made of ice and fire. Hardly seems believable");
+                bp.m_Cost = 32000;
+                bp.CR = 10;
+            });
+            Resources.AddBlueprint(contrary);
+
+            var assFriend = Helpers.CreateCopy<BlueprintItemWeapon>(plus2, bp =>
+            {
+                bp.name = "assFriendItemThrowingDagger";
+                bp.AssetGuid = new BlueprintGuid(new Guid("11F0CC28-ECDE-4679-B113-78BDAC498D5C"));
+                bp.m_Ability = fakeSlayerStudyTargetAbility.ToReference<BlueprintAbilityReference>();
+                bp.SpendCharges = true;
+                bp.Charges = 5;
+                bp.RestoreChargesOnRest = true;
+                bp.CasterLevel = 10;
+                bp.m_DisplayNameText = Helpers.CreateString("ASSFRIEND_TD", "Assassin's Friend");
+                bp.m_DescriptionText = Helpers.CreateString("ASSFRIEND_TD_DESC", "This plus +2 throwing dagger allows the weilder to use study target 5 times per day as slayer of the same level if the wielder is a rogue. If wielder is not a rogue then the study target will be a +1 bonus.");
+                bp.m_Cost = 50000;
+                bp.CR = 13;
+            });
+            Resources.AddBlueprint(assFriend);
+            #endregion
         }
     }
 }
