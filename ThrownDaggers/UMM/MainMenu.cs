@@ -17,7 +17,13 @@ namespace ThrownDaggers.UMM
         {
             if (GUILayout.Button("Test"))
             {
-                var item = ResourcesLibrary.TryGetBlueprint<BlueprintItemWeapon>("11F0CC28-ECDE-4679-B113-78BDAC498D5C");
+                var item = ResourcesLibrary.TryGetBlueprint<BlueprintItemWeapon>("CE459D19-CB5F-4991-9363-F36E0ACF7882");
+                Main.Mod.Debug(item?.AssetGuidThreadSafe);
+                Game.Instance.Player.Inventory.Add(item);
+            }
+            if (GUILayout.Button("Test Babble"))
+            {
+                var item = ResourcesLibrary.TryGetBlueprint<BlueprintItemWeapon>("F760A339-C44D-49C3-9388-DAB7A9EDFEA6");
                 Main.Mod.Debug(item?.AssetGuidThreadSafe);
                 Game.Instance.Player.Inventory.Add(item);
             }

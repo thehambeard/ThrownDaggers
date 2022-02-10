@@ -9,6 +9,7 @@ using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using Kingmaker.UnitLogic.Mechanics.Conditions;
@@ -24,6 +25,26 @@ namespace ThrownDaggers.Blueprints
     {
         public static void Configure()
         {
+            #region BLUEPRINTBUFF
+
+            var fakeSlayerStudyTargetBuff = Helpers.CreateCopy(Resources.GetBlueprint<BlueprintBuff>("45548967b714e254aa83f23354f174b0"), bp =>
+            {
+                bp.name = "fakeSlayerStudyTarget";
+                bp.AssetGuid = new BlueprintGuid(new Guid("86413A38-406C-4281-AA59-49CD0654F2E9"));
+                var comp = bp.GetComponent<ContextRankConfig>();
+                comp.m_Class = new BlueprintCharacterClassReference[] { Resources.GetBlueprint<BlueprintCharacterClass>("299aa766dee3cbf4790da4efb8c72484").ToReference<BlueprintCharacterClassReference>() };
+            });
+            Resources.AddBlueprint(fakeSlayerStudyTargetBuff);
+
+            var fortitudeBaneBuff = Helpers.CreateCopy(Resources.GetBlueprint<BlueprintBuff>("a5277a151e226a64589df815d3b517f6"), bp =>
+            {
+                bp.name = "fortitudeBandBuff";
+                bp.AssetGuid = new BlueprintGuid(new Guid("1B8E2F96-ABCD-45FC-ABEA-D9AE99F2D078"));
+                var comp = bp.GetComponent<AddStatBonus>();
+                comp.Stat = Kingmaker.EntitySystem.Stats.StatType.SaveFortitude;
+            });
+
+            #endregion
             #region ENCHANTMENTS
             //Enchantments
             var corrosive = Resources.GetBlueprint<BlueprintWeaponEnchantment>("633b38ff1d11de64a91d490c683ab1c8");
@@ -57,7 +78,6 @@ namespace ThrownDaggers.Blueprints
                     comp.Descriptor = Kingmaker.Enums.ModifierDescriptor.Enhancement;
                     comp.Stat = Kingmaker.EntitySystem.Stats.StatType.Dexterity;
                     comp.Value = 2;
-                    bp.m_Overrides.Add(comp.name);
                 });
             });
 
@@ -79,7 +99,47 @@ namespace ThrownDaggers.Blueprints
                     f.name = "$AddUnitFeatureEquipment$C06B4469-BACD-4B76-A0C9-8C07F0390094";
                     f.m_Feature = Resources.GetBlueprint<BlueprintFeature>("09bdd9445ac38044389476689ae8d5a1").ToReference<BlueprintFeatureReference>();
                 });
-                bp.m_Overrides = new List<string>() { "$AddUnitFeatureEquipment$C06B4469-BACD-4B76-A0C9-8C07F0390094" };
+            });
+
+            var babbleItemEnch = Helpers.CreateCopy<BlueprintWeaponEnchantment>(Resources.GetBlueprint<BlueprintWeaponEnchantment>("758c91259fce9094f9c03275fd6c752f"), bp =>
+            {
+                bp.name = "BabbleItemEnchantment";
+                bp.AssetGuid = new BlueprintGuid(new Guid("8E086C08-1B5C-4157-9995-662C924B8854"));
+                var comp = bp.GetComponent<AddInitiatorAttackWithWeaponTrigger>();
+                var action = comp.Action.GetAction<ContextActionCastSpell>();
+                action.m_Spell = Resources.GetBlueprint<BlueprintAbility>("fd4d9fd7f87575d47aafe2a64a6e2d8d").ToReference<BlueprintAbilityReference>();
+                action.OverrideDC = true;
+                action.DC.Value = 20;
+                var comp2 = bp.GetComponent<ContextSetAbilityParams>();
+                comp2.CasterLevel.Value = 10;
+                comp2.SpellLevel.Value = 2;
+            });
+            Resources.AddBlueprint(babbleItemEnch);
+
+            var agesItemEnch = Helpers.CreateCopy<BlueprintWeaponEnchantment>(Resources.GetBlueprint<BlueprintWeaponEnchantment>("758c91259fce9094f9c03275fd6c752f"), bp =>
+            {
+                bp.name = "AgesItemEnchantment";
+                bp.AssetGuid = new BlueprintGuid(new Guid("9197FC79-D0E6-4B57-9291-779490752044"));
+                var comp = bp.GetComponent<AddInitiatorAttackWithWeaponTrigger>();
+                comp.CriticalHit = false;
+                var action = comp.Action.GetAction<ContextActionCastSpell>();
+                action.m_Spell = Resources.GetBlueprint<BlueprintAbility>("f492622e473d34747806bdb39356eb89").ToReference<BlueprintAbilityReference>();
+                action.OverrideDC = true;
+                action.DC.Value = 25; 
+                var comp2 = bp.GetComponent<ContextSetAbilityParams>();
+                comp2.CasterLevel.Value = 14;
+                comp2.SpellLevel.Value = 3;
+            });
+            Resources.AddBlueprint(agesItemEnch);
+
+            var fortitudeBaneEnch = Helpers.CreateCopy<BlueprintWeaponEnchantment>(Resources.GetBlueprint<BlueprintWeaponEnchantment>("8a2b34ea179e1e040b3cd0e6a4e942b6"), bp =>
+            {
+                bp.name = "fortitudeBaneItemEnchantment";
+                bp.AssetGuid = new BlueprintGuid(new Guid("0762B1A0-2201-4E39-8F1B-788A03A24E44"));
+                var comp = bp.GetComponent<AddInitiatorAttackWithWeaponTrigger>();
+                comp.CriticalHit = false;
+                var action = comp.Action.GetAction<ContextActionApplyBuff>();
+                action.m_Buff = fortitudeBaneBuff.ToReference<BlueprintBuffReference>();
             });
             #endregion
             #region WEAPON_TYPES
@@ -136,17 +196,6 @@ namespace ThrownDaggers.Blueprints
                bp.m_WeaponType = throwingDaggerType.ToReference<BlueprintWeaponTypeReference>();
            });
             #endregion
-            #region BLUEPRINTBUFF
-
-            var fakeSlayerStudyTargetBuff = Helpers.CreateCopy(Resources.GetBlueprint<BlueprintBuff>("45548967b714e254aa83f23354f174b0"), bp =>
-            {
-                bp.AssetGuid = new BlueprintGuid(new Guid("8E086C08-1B5C-4157-9995-662C924B8854"));
-            });
-            var fakeSlayerComp = fakeSlayerStudyTargetBuff.GetComponent<ContextRankConfig>();
-            fakeSlayerComp.m_Class = new BlueprintCharacterClassReference[] { Resources.GetBlueprint<BlueprintCharacterClass>("299aa766dee3cbf4790da4efb8c72484").ToReference<BlueprintCharacterClassReference>() };
-            Resources.AddBlueprint(fakeSlayerStudyTargetBuff);
-
-            #endregion
             #region BLUEPRINTABILITY
             var fakeSlayerStudyTargetAbility = Helpers.CreateCopy(Resources.GetBlueprint<BlueprintAbility>("b96d810ceb1708b4e895b695ddbb1813"),  bp =>
             {
@@ -156,6 +205,8 @@ namespace ThrownDaggers.Blueprints
             ((ContextConditionHasBuffFromCaster)fakeSlayerStudyTargetAbilityComp.Actions.GetAction<Conditional>().ConditionsChecker.Conditions[0]).m_Buff = fakeSlayerStudyTargetBuff.ToReference<BlueprintBuffReference>();
             ((ContextActionApplyBuff)fakeSlayerStudyTargetAbilityComp.Actions.GetAction<Conditional>().IfTrue.Actions[0]).m_Buff = fakeSlayerStudyTargetBuff.ToReference<BlueprintBuffReference>();
             Resources.AddBlueprint(fakeSlayerStudyTargetAbility);
+
+            
             #endregion
             #region BLUPRINTITEMWEAPON
             //Item Blueprints
@@ -362,13 +413,77 @@ namespace ThrownDaggers.Blueprints
                 bp.SpendCharges = true;
                 bp.Charges = 5;
                 bp.RestoreChargesOnRest = true;
-                bp.CasterLevel = 10;
                 bp.m_DisplayNameText = Helpers.CreateString("ASSFRIEND_TD", "Assassin's Friend");
                 bp.m_DescriptionText = Helpers.CreateString("ASSFRIEND_TD_DESC", "This plus +2 throwing dagger allows the weilder to use study target 5 times per day as slayer of the same level if the wielder is a rogue. If wielder is not a rogue then the study target will be a +1 bonus.");
                 bp.m_Cost = 50000;
                 bp.CR = 13;
             });
             Resources.AddBlueprint(assFriend);
+
+            var babble = Helpers.CreateCopy<BlueprintItemWeapon>(plus2, bp =>
+            {
+                bp.name = "babbleItemThrowingDagger";
+                bp.AssetGuid = new BlueprintGuid(new Guid("F760A339-C44D-49C3-9388-DAB7A9EDFEA6"));
+                bp.m_Enchantments = bp.m_Enchantments.Append(babbleItemEnch.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_DisplayNameText = Helpers.CreateString("BABBLE_TD", "Babble");
+                bp.m_DescriptionText = Helpers.CreateString("BABBLE_TD_DESC", "When this +2 dagger confirms a critical hit the Hideous Laughter spell will be cast, DC of 20.");
+                bp.m_Cost = 32000;
+                bp.CR = 10;
+            });
+            Resources.AddBlueprint(babble);
+
+            var barrage = Helpers.CreateCopy<BlueprintItemWeapon>(plus1, bp =>
+            {
+                bp.name = "barrageItemThrowingDagger";
+                bp.AssetGuid = new BlueprintGuid(new Guid("14E4654E-EA70-42B7-9921-679E9DBC5030"));
+                bp.m_Enchantments = bp.m_Enchantments.Append(coldiron.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_Enchantments = bp.m_Enchantments.Append(speed.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_DisplayNameText = Helpers.CreateString("BARRAGE_TD", "Barrage");
+                bp.m_DescriptionText = Helpers.CreateString("BARRAGE_TD_DESC", "This +1 cold iron throwing dagger allows for an extra attack per round ");
+                bp.m_Cost = 32000;
+                bp.CR = 10;
+            });
+            Resources.AddBlueprint(barrage);
+
+            var icicle = Helpers.CreateCopy<BlueprintItemWeapon>(plus3, bp =>
+            {
+                bp.name = "icicleItemThrowingDagger";
+                bp.AssetGuid = new BlueprintGuid(new Guid("299D9F87-2E52-42A9-8187-CCD7C022E067"));
+                bp.m_Enchantments = bp.m_Enchantments.Append(frost.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_DisplayNameText = Helpers.CreateString("ICICLE_TD", "Icicle");
+                bp.m_DescriptionText = Helpers.CreateString("ICICLE_TD_DESC", "Whenever this +3 frost throwing dagger confirms a {g|Encyclopedia:Critical}critical hit{/g}, all enemies in 15 feet range have to pass a {g|Encyclopedia:Saving_Throw}Reflex saving throw{/g} ({g|Encyclopedia:DC}DC{/g} 25) or be slowed for 1d4 {g|Encyclopedia:Combat_Round}rounds{/g}.");
+                bp.m_Cost = 50000;
+                bp.CR = 13;
+            });
+            Resources.AddBlueprint(icicle);
+
+            var ages = Helpers.CreateCopy<BlueprintItemWeapon>(plus4, bp =>
+            {
+                bp.name = "agesItemThrowingDagger";
+                bp.AssetGuid = new BlueprintGuid(new Guid("CE459D19-CB5F-4991-9363-F36E0ACF7882"));
+                bp.m_Enchantments = bp.m_Enchantments.Append(frost.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_Enchantments = bp.m_Enchantments.Append(flaming.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_Enchantments = bp.m_Enchantments.Append(corrosive.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_Enchantments = bp.m_Enchantments.Append(agesItemEnch.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_DisplayNameText = Helpers.CreateString("AGES_TD", "Throwing Dagger of the Ages");
+                bp.m_DescriptionText = Helpers.CreateString("AGES_TD_DESC", "This +4 frost flaming corrosive throwing dagger also has chance of slowing (DC: 30) all enemies in 15 feet range.");
+                bp.m_Cost = 128000;
+                bp.CR = 20;
+            });
+            Resources.AddBlueprint(ages);
+
+            var fortitudeBaneItem = Helpers.CreateCopy<BlueprintItemWeapon>(plus3, bp =>
+            {
+                bp.name = "fortitudeBaneItemThrowingDagger";
+                bp.AssetGuid = new BlueprintGuid(new Guid("CCEFBDE8-3CBD-4750-BDA3-CD736EA12883"));
+                bp.m_Enchantments = bp.m_Enchantments.Append(fortitudeBaneEnch.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                bp.m_DisplayNameText = Helpers.CreateString("FORTBANE_TD", "Fortitude Bane");
+                bp.m_DescriptionText = Helpers.CreateString("FORTBANE_TD_DESC", "Whenever this +3 throwing dagger hits the target will take -1 stacking to their Fortitude saves.");
+                bp.m_Cost = 72000;
+                bp.CR = 16;
+            });
+            Resources.AddBlueprint(fortitudeBaneItem);
+
             #endregion
         }
     }

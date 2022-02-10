@@ -26,6 +26,14 @@ namespace ThrownDaggers.Loot
             //Max price: 75000 CR:15
             var wilcerGarms = Resources.GetBlueprint<BlueprintSharedVendorTable>("5753b6f35e7db234aa44085a358c27af");
             wilcerGarms.AddVendorItem("D6AE4583-6F2E-4ECB-8577-36C6513ACD28", 1); //contrary
+            wilcerGarms.AddVendorItem("14E4654E-EA70-42B7-9921-679E9DBC5030", 1); //barrage
+
+            //Blacksmith
+            //Drezen
+            //Max price: 75000 CR:15
+            var blacksmith = Resources.GetBlueprint<BlueprintSharedVendorTable>("1317f39fdc425e94f85c331a79f603d3");
+            blacksmith.AddVendorItem("299D9F87-2E52-42A9-8187-CCD7C022E067", 1); //icicle
+             
         }
     }
 }

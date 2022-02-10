@@ -25,6 +25,12 @@ namespace ThrownDaggers.Loot
 
             //Gray Garrison, behind bookcase
             Resources.GetBlueprint<BlueprintLoot>("36c7a0b43c4078c4584e67820cdd9163").AddToBlueprintLoot("DA09AA28-EF8F-4EC2-80F4-DDC623453B4E", 1); //holy acid plus 1
+
+            //Hellnight gargoyle quest past mobility check
+            Resources.GetBlueprint<BlueprintLoot>("d636f41e308f64d48b174ee53bb58d2b").AddToBlueprintLoot("F760A339-C44D-49C3-9388-DAB7A9EDFEA6", 1); //Babble
+
+            //Lost Chapel, graveyard
+            Resources.GetBlueprint<BlueprintLoot>("e1a639a4d6f0a6347965611bd4c00786").AddToBlueprintLoot("11F0CC28-ECDE-4679-B113-78BDAC498D5C", 1); //Assassin's friend
         }
     }
 }
