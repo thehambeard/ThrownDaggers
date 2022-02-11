@@ -31,6 +31,9 @@ namespace ThrownDaggers.Loot
 
             //Lost Chapel, graveyard
             Resources.GetBlueprint<BlueprintLoot>("e1a639a4d6f0a6347965611bd4c00786").AddToBlueprintLoot("11F0CC28-ECDE-4679-B113-78BDAC498D5C", 1); //Assassin's friend
+
+            //Wintersun, Main Hall
+            Resources.GetBlueprint<BlueprintLoot>("eb597aa1d6a8b3f4d824402db1458873").AddToBlueprintLoot("CCEFBDE8-3CBD-4750-BDA3-CD736EA12883", 1); //Fortitude Bane
         }
     }
 }

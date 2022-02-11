@@ -1,6 +1,7 @@
 ﻿using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Items.Ecnchantments;
+using Kingmaker.Blueprints.Items.Equipment;
 using Kingmaker.Blueprints.Items.Weapons;
 using Kingmaker.Designers.EventConditionActionSystem.Actions;
 using Kingmaker.Designers.Mechanics.Buffs;
@@ -43,6 +44,7 @@ namespace ThrownDaggers.Blueprints
                 var comp = bp.GetComponent<AddStatBonus>();
                 comp.Stat = Kingmaker.EntitySystem.Stats.StatType.SaveFortitude;
             });
+            Resources.AddBlueprint(fortitudeBaneBuff);
 
             #endregion
             #region ENCHANTMENTS
@@ -141,6 +143,7 @@ namespace ThrownDaggers.Blueprints
                 var action = comp.Action.GetAction<ContextActionApplyBuff>();
                 action.m_Buff = fortitudeBaneBuff.ToReference<BlueprintBuffReference>();
             });
+            Resources.AddBlueprint(fortitudeBaneEnch);
             #endregion
             #region WEAPON_TYPES
             //Weapon Type
@@ -478,12 +481,11 @@ namespace ThrownDaggers.Blueprints
                 bp.AssetGuid = new BlueprintGuid(new Guid("CCEFBDE8-3CBD-4750-BDA3-CD736EA12883"));
                 bp.m_Enchantments = bp.m_Enchantments.Append(fortitudeBaneEnch.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
                 bp.m_DisplayNameText = Helpers.CreateString("FORTBANE_TD", "Fortitude Bane");
-                bp.m_DescriptionText = Helpers.CreateString("FORTBANE_TD_DESC", "Whenever this +3 throwing dagger hits the target will take -1 stacking to their Fortitude saves.");
+                bp.m_DescriptionText = Helpers.CreateString("FORTBANE_TD_DESC", "Whenever this +3 throwing dagger hits the target will take -1 stacking penalty to their Fortitude saves.");
                 bp.m_Cost = 72000;
                 bp.CR = 16;
             });
             Resources.AddBlueprint(fortitudeBaneItem);
-
             #endregion
         }
     }
