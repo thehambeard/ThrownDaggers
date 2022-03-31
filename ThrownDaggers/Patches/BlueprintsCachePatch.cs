@@ -28,6 +28,8 @@ namespace ThrownDaggers.Patches
                     Blueprints.ThrowingDaggers.Configure();
                     Loot.Ground.Configure();
                     Loot.Vendor.Configure();
+                    if (Main.Mod.Settings.RangedStars) Blueprints.ThrowingStars.Configure();
+                    if (Main.Mod.Settings.RangedDaggers) Blueprints.ThrowRegularDaggers.Configure();
                 }
                 catch (Exception e)
                 {

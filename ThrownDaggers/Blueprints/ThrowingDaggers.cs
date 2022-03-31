@@ -151,12 +151,12 @@ namespace ThrownDaggers.Blueprints
             var throwingDaggerType = Helpers.CreateCopy<BlueprintWeaponType>(Resources.GetBlueprint<BlueprintWeaponType>("07cc1a7fceaee5b42b3e43da960fe76d"), bp =>
             {
                 bp.AssetGuid = new BlueprintGuid(new Guid("CD982E48-AC45-4BCB-94EB-6A8CF3A2D86E"));
-                bp.m_AttackRange = new Kingmaker.Utility.Feet(30);
+                bp.m_AttackRange = new Kingmaker.Utility.Feet(20);
                 bp.m_AttackType = Kingmaker.RuleSystem.AttackType.Ranged;
                 bp.m_VisualParameters = dartType.m_VisualParameters;
                 bp.m_DefaultNameText = Helpers.CreateString("THROWING_DAGGER_DEFAULT_TEXT", "Throwing Dagger");
                 bp.m_TypeNameText = Helpers.CreateString("THROWING_DAGGER_TYPE_TEXT", "Throwing Dagger");
-                bp.m_Enchantments = bp.m_Enchantments = bp.m_Enchantments.Append(strength.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
+                if (Main.Mod.Settings.StrengthDaggers) bp.m_Enchantments = bp.m_Enchantments.Append(strength.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
 
             });
             Resources.AddBlueprint(throwingDaggerType);

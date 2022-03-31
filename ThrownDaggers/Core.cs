@@ -15,6 +15,8 @@ namespace ThrownDaggers
             Mod.Debug(MethodBase.GetCurrentMethod());
             Mod.ResetSettings();
             Mod.Settings.lastModVersion = Mod.Version.ToString();
+            Mod.Settings.RangedStars = true;
+            Mod.Settings.RangedDaggers = true;
         }
 
         public void HandleModEnable()

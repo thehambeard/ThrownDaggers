@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <!-- Publicize Target -->
   <Target Name="Publicize" AfterTargets="Clean">
@@ -146,6 +147,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blueprints\ThrowingDaggers.cs" />
+    <Compile Include="Blueprints\ThrowingStars.cs" />
+    <Compile Include="Blueprints\ThrowRegularDaggers.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="DefaultLanguage.cs" />
     <Compile Include="Extensions\ExtentionMethods.cs" />

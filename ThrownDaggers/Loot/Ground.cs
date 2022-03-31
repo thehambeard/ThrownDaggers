@@ -34,6 +34,11 @@ namespace ThrownDaggers.Loot
 
             //Wintersun, Main Hall
             Resources.GetBlueprint<BlueprintLoot>("eb597aa1d6a8b3f4d824402db1458873").AddToBlueprintLoot("CCEFBDE8-3CBD-4750-BDA3-CD736EA12883", 1); //Fortitude Bane
+
+            //Blackwater, gas puzzle
+            Resources.GetBlueprint<BlueprintLoot>("2eadc64c50d64ee69e00b37ceed15cba").AddToBlueprintLoot("CE459D19-CB5F-4991-9363-F36E0ACF7882", 1); //Throwing Dagger of the Ages
+
+
         }
     }
 }
