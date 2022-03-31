@@ -168,6 +168,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Repo.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\..\WrathModMaker\ModMaker\ModMaker.projitems" Label="Shared" />
