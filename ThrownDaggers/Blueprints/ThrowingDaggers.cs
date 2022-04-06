@@ -156,6 +156,7 @@ namespace ThrownDaggers.Blueprints
                 bp.m_VisualParameters = dartType.m_VisualParameters;
                 bp.m_DefaultNameText = Helpers.CreateString("THROWING_DAGGER_DEFAULT_TEXT", "Throwing Dagger");
                 bp.m_TypeNameText = Helpers.CreateString("THROWING_DAGGER_TYPE_TEXT", "Throwing Dagger");
+                bp.m_FighterGroupFlags = WeaponFighterGroupFlags.Thrown;
                 if (Main.Mod.Settings.StrengthDaggers) bp.m_Enchantments = bp.m_Enchantments.Append(strength.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
 
             });

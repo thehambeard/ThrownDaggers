@@ -1,12 +1,12 @@
 {
-    "Id": "ThrownDaggers",
-    "DisplayName": "Thrown Daggers",
-    "Author": "Hambeard",
-    "Version": "1.0.1",
-    "ManagerVersion": "0.23.4",
-    "Requirements": [],
-    "AssemblyName": "ThrownDaggers.dll",
-    "EntryMethod": "ThrownDaggers.Main.Load",
-    "HomePage": "https://github.com/thehambeard/ThrownDaggers/releases",
-    "Repository": "https://raw.githubusercontent.com/thehambeard/ThrownDaggers/main/Repo.json"
+  "Id": "ThrownDaggers",
+  "DisplayName": "Thrown Daggers",
+  "Author": "Hambeard",
+  "Version": "1.0.2",
+  "ManagerVersion": "0.23.4",
+  "Requirements": [],
+  "AssemblyName": "ThrownDaggers.dll",
+  "EntryMethod": "ThrownDaggers.Main.Load",
+  "HomePage": "https://github.com/thehambeard/ThrownDaggers/releases",
+  "Repository": "https://raw.githubusercontent.com/thehambeard/ThrownDaggers/main/ThrownDaggers/Repo.json"
 }

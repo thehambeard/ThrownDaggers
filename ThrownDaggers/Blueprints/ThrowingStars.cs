@@ -21,6 +21,7 @@ namespace ThrownDaggers.Blueprints
             starknifeType.m_AttackRange = new Kingmaker.Utility.Feet(20);
             starknifeType.m_AttackType = Kingmaker.RuleSystem.AttackType.Ranged;
             starknifeType.m_VisualParameters = dartType.m_VisualParameters;
+            starknifeType.m_FighterGroupFlags = WeaponFighterGroupFlags.Thrown;
             if (Main.Mod.Settings.StrengthStars) starknifeType.m_Enchantments = starknifeType.m_Enchantments.Append(strength.ToReference<BlueprintWeaponEnchantmentReference>()).ToArray();
         }
     }
